@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        hostname: "previews.123rf.com",
+      }
+    ]
+  }
 };
 
 export default nextConfig;

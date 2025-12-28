@@ -1,0 +1,63 @@
+[
+  {
+    "title": "Mastering Stripe Payments",
+    "description": "A comprehensive course on building payment integrations using Stripe and Next.js, covering subscriptions, webhooks, and best practices.",
+    "imageUrl": "https://example.com/images/stripe-course.jpg",
+    "price": 49.99
+  },
+  {
+    "title": "Stripe Subscriptions Bootcamp",
+    "description": "Build robust subscription billing with Stripe, handling trials, promos, and proration.",
+    "imageUrl": "https://example.com/images/subscriptions.jpg",
+    "price": 59.99
+  },
+  {
+    "title": "Stripe Webhooks & Security",
+    "description": "Deep dive into secure webhook handling, signature verification, and retry strategies.",
+    "imageUrl": "https://example.com/images/webhooks.jpg",
+    "price": 39.99
+  },
+  {
+    "title": "Checkout and Client Integration",
+    "description": "Implement Stripe Checkout and client-side integrations for fast, PCI-compliant flows.",
+    "imageUrl": "https://example.com/images/checkout.jpg",
+    "price": 29.99
+  },
+  {
+    "title": "Advanced Invoicing with Stripe",
+    "description": "Automate invoicing, custom invoice templates, and hosted invoices with Stripe.",
+    "imageUrl": "https://example.com/images/invoicing.jpg",
+    "price": 34.99
+  },
+  {
+    "title": "Payments Analytics & Reporting",
+    "description": "Track payments, reconcile transactions, and build dashboards from Stripe data.",
+    "imageUrl": "https://example.com/images/analytics.jpg",
+    "price": 24.99
+  },
+  {
+    "title": "Connect Platforms & Marketplaces",
+    "description": "Create multi-party payments using Stripe Connect and handle onboarding flows.",
+    "imageUrl": "https://example.com/images/connect.jpg",
+    "price": 69.99
+  },
+  {
+    "title": "Fraud Prevention & Radar",
+    "description": "Use Stripe Radar and best practices to detect and prevent fraudulent transactions.",
+    "imageUrl": "https://example.com/images/fraud.jpg",
+    "price": 19.99
+  },
+  {
+    "title": "Billing Automation with Next.js",
+    "description": "Integrate Stripe billing into Next.js apps with serverless functions and edge routes.",
+    "imageUrl": "https://example.com/images/billing-nextjs.jpg",
+    "price": 44.99
+  },
+  {
+    "title": "Complete Stripe Capstone Project",
+    "description": "End-to-end project combining Checkout, Subscriptions, Webhooks, and Connect into a demo product.",
+    "imageUrl": "https://example.com/images/capstone.jpg",
+    "price": 79.99
+  }
+]
+
