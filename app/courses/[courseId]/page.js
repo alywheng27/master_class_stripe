@@ -1,5 +1,6 @@
 'use client'
 
+import PurchaseButton from '@/components/PurchaseButton'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -81,7 +82,7 @@ export default function CourseId() {
                   Enroll in this course to access all premium content
                 </p>
                 <p className='text-2xl font-bold mb-4'>${courseData.price.toFixed(2)}</p>
-                {/* <PurchaseButton courseId={params.courseId} /> */}Purchase
+                <PurchaseButton courseId={params.courseId} />
               </div>
             </div>
           ) }
