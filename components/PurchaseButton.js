@@ -6,6 +6,7 @@ import { useAction, useQuery } from 'convex/react'
 import React, { useState } from 'react'
 import { Button } from './ui/button'
 import { ArrowRight, Loader2Icon } from 'lucide-react'
+import { toast } from 'sonner'
 
 export default function PurchaseButton({ courseId }) {
   const [isLoading, setIsLoading] = useState(false)
@@ -22,8 +23,10 @@ export default function PurchaseButton({ courseId }) {
   
   const handlePurchase = async () => {
     if(!user) {
-      alert("PLease Login to purchase")
+      toast.error("Please Login to purchase.", { id: "login-error" })
+      return false
     }
+    
     setIsLoading(true)
 
     try {
@@ -35,7 +38,11 @@ export default function PurchaseButton({ courseId }) {
         throw new Error("Failed to create checkout session")
       }
     } catch (error) {
-      // todo: handle error
+      if(error.message.includes("Rate limit exceeded")) {
+        toast.error("You've tried too many times. Please try again later.")
+      } else {
+        toast.error(error.message || "An error occurred. Please try again.")
+      }
       console.log(error)
     }finally {
       setIsLoading(false)

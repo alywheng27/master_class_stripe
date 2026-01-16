@@ -23,7 +23,7 @@ export default function Navbar() {
 
         <SignedIn>
           <Link href="/billing">
-            <Button variant='outline' size='sm' className="flex items-center gap-2">
+            <Button variant='outline' size='sm' className="flex items-center gap-2 text-gray-500">
               <CreditCard className='size-4' />
               <span className='hiddem sm:inline'>Billing</span>
             </Button>
@@ -35,7 +35,7 @@ export default function Navbar() {
 
         <SignedIn>
           <SignOutButton mode='modal'>
-            <Button variant='outline' size='sm' className="flex items-center gap-2">
+            <Button variant='outline' size='sm' className="flex items-center gap-2 text-gray-500">
               <LogOut className='size-4' />
               <span className='hiddem sm:inline'>Log out</span>
             </Button>
