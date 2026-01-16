@@ -24,15 +24,15 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {
-              courses.slice(0,3).map(course => (
+              courses.slice(0, 3).map(course => (
                 <Card key={course._id} className="flex flex-col">
                   <a href={`/courses/${course._id}`} className="cursor-pointer">
                     <CardHeader>
                       <Image
                         src={course.imageUrl}
-                        alt={course.title} 
-                        width={640} 
-                        height={360} 
+                        alt={course.title}
+                        width={640}
+                        height={360}
                         className="rounded-md object-cover" />
                     </CardHeader>
                     <CardContent className="grow">
@@ -46,7 +46,7 @@ export default async function Home() {
                     <Badge variant="default" className="text-lg px-3 py-1">
                       ${course.price.toFixed(2)}
                     </Badge>
-                  
+
                     <SignedIn>
                       <PurchaseButton courseId={course._id} />
                     </SignedIn>
@@ -75,7 +75,7 @@ export default async function Home() {
           </div>
         </main>
       </div>
-      
+
     </>
   )
 }
