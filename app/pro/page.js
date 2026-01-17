@@ -24,7 +24,7 @@ export default function Pro() {
   }
 
   return (
-    <div className='container mx-auto px-4 py-16 max-w-6xl'>
+    <div className='container mx-auto px-4 py-16 max-w-6xl h-screen'>
       <h1 className='text-4xl font-bold text-center mb-4 text-gray-800'>Choose Your Pro Plan</h1>
       <p className='text-xl text-center mb-12 text-gray-600'>Unlock premium features and accelerate your learning.</p>
 
@@ -77,12 +77,20 @@ export default function Pro() {
                     userSubscription?.status === "active" && (userSubscription?.planType === plan.id || isYearlySubscriptionActive)
                   }
                 >
-                  {loadingPlan === plan.id ? (
-                    <>
-                      <Loader2Icon className='mr-2 size-4 animate-spin' />  
-                      Processing...
-                    </>
-                  ) : isUserLoaded && userSubscription?.status === "active" && userSubscription.planType === plan.id ? "Current Plan" : "Select a Plan" }
+                  {
+                    loadingPlan === plan.id ? (
+                      <>
+                        <Loader2Icon className='mr-2 size-4 animate-spin' />  
+                        Processing...
+                      </>
+                    ) : isUserLoaded && 
+                      userSubscription?.status === "active" && 
+                      userSubscription.planType === plan.id
+                      ? "Current Plan" 
+                      : isUserLoaded && plan.id === "month" && isYearlySubscriptionActive 
+                      ? "Yearly Plan Active" 
+                      : plan.ctaText 
+                  }
                 </Button>
             </CardFooter>
           </Card>
