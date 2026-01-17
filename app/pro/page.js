@@ -1,14 +1,14 @@
 'use client'
 
-import PriceCard from '@/components/PriceCard'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { PRO_PLANS } from '@/constants'
 import { api } from '@/convex/_generated/api'
 import { useUser } from '@clerk/nextjs'
-import { useQuery } from 'convex/react'
-import { Check } from 'lucide-react'
+import { useAction, useQuery } from 'convex/react'
+import { Check, Loader2Icon } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function Pro() {
   const [loadingPlan, setLoadingPlan] = useState("")
@@ -19,8 +19,35 @@ export default function Pro() {
 
   const isYearlySubscriptionActive = userSubscription?.status === "active" && userSubscription?.planType === "year"
 
-  const handlePlanSelection = async (planId) => {
+  const createProPlanCheckoutSession = useAction(api.stripe.createProPlanCheckoutSession)
 
+  const handlePlanSelection = async (planId) => {
+    if(!user) {
+      toast.error("Please log in to select a plan.", { 
+        id: "login-error", 
+        position: 'top-center', 
+        duration: 3000 
+      })
+
+      return
+    }
+
+    setLoadingPlan(planId)
+    try {
+      const result = await createProPlanCheckoutSession({ planId })
+      if(result.checkoutUrl) {
+        window.location.href = result.checkoutUrl
+      }
+    } catch (error) {
+      if(error.message.includes("Rate limit exceeded")) {
+        toast.error("You've tried too many times. Please try again later.")
+      }else {
+        toast.error("There was an error initiating your purchase. Please try again.") 
+      }
+      
+      console.error(error)
+    }
+       
   }
 
   return (

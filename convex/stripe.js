@@ -8,7 +8,6 @@ export const createCheckoutSession = action({
   args: { courseId: v.id("courses") },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity()
-
     if(!identity) {
       throw new ConvexError("Unauthorized")
     }
@@ -16,14 +15,12 @@ export const createCheckoutSession = action({
     const user = await ctx.runQuery(api.users.getUserByClerkId, {
       clerkId: identity.subject
     })
-
     if(!user) {
       throw new ConvexError("User not found.")
     }
 
     const rateLimitKey = `checkout-rate-limit:${user._id}`
     const { success } = await ratelimit.limit(rateLimitKey)
-
     if(!success) {
       throw new ConvexError("Rate limit exceeded")
     }
@@ -31,7 +28,6 @@ export const createCheckoutSession = action({
     const course = await ctx.runQuery(api.courses.getCourseById, {
       courseId: args.courseId
     })
-
     if(!course) {
       throw new ConvexError("Course not found.")
     }
@@ -59,6 +55,57 @@ export const createCheckoutSession = action({
         courseId: args.courseId,
         userId: user._id
       }
+    })
+
+    return { checkoutUrl: session.url }
+  }
+})
+
+export const createProPlanCheckoutSession = action({
+  args: { planId: v.union(v.literal("month"), v.literal("year")) },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity()
+
+    if(!identity) {
+      throw new ConvexError("Unauthorized")
+    }
+
+    const user = await ctx.runQuery(api.users.getUserByClerkId, {
+      clerkId: identity.subject
+    })
+    if(!user) {
+      throw new ConvexError("User not found.")
+    }
+
+    const rateLimitKey = `pro-plan-rate-limit:${user._id}`
+    const { success } = await ratelimit.limit(rateLimitKey)
+    if(!success) {
+      throw new ConvexError("Rate limit exceeded")
+    }
+
+    let priceId
+    if(args.planId === 'month') {
+      priceId = process.env.STRIPE_MONTHLY_PRICE_ID
+    } else if(args.planId === "year") {
+      priceId = process.env.STRIPE_YEARLY_PRICE_ID
+    }
+
+    if(!priceId) {
+      throw new ConvexError("PriceId not provided")
+    }
+    const session = await stripe.checkout.sessions.create({
+      customer: user.stripeCustomerId,
+      line_items: [{ 
+        price: priceId,
+        quantity: 1
+      }],
+      mode: "subscription",
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/pro/success?session_id={CHECKOUT_SESSION_ID}&year=${args.planId === "year"}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pro`,
+      metadata: {
+        userId: user._id,
+        planId: args.planId
+      },
     })
 
     return { checkoutUrl: session.url }
